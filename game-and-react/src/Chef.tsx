@@ -51,6 +51,11 @@ function Chef(/*props: ChefProps*/) {
                 </tbody>
                 
             </table>
+
+            <div className="ControlButtons">
+                <button>{"<"}</button>
+                <button>{">"}</button>
+            </div>
         </div>
     )
 }

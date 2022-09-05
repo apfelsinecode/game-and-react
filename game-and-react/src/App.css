@@ -11,6 +11,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  font-size: 36pt;
 }
 
 .GameTable .Air {
@@ -19,5 +20,16 @@
 }
 
 .GameTable td {
-  width: 2em;
+  width: 3em;
+}
+
+.ControlButtons {
+  padding-top: 4em;
+}
+
+.ControlButtons button {
+  font-size: 42pt;
+  margin: 0.1em;
+  padding: 0.25em;
+  width: 3em;
 }
