@@ -19,6 +19,10 @@
   vertical-align: bottom;
 }
 
+.GameTable tr {
+  height: 1em;
+}
+
 .GameTable td {
   width: 3em;
 }
@@ -32,4 +36,12 @@
   margin: 0.1em;
   padding: 0.25em;
   width: 3em;
+}
+
+.DebugButtons button {
+  font-size: 24pt;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }
