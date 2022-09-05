@@ -3,6 +3,8 @@
 
 }*/
 
+import { useState } from "react";
+
 /*
  * use emojis:
  * the four foods: 🥩, 🥦, 🥓, 🐟
@@ -14,6 +16,16 @@ function Chef(/*props: ChefProps*/) {
     
     const food = ['🥩', '🥦', '🥓', '🐟']; // food for the pans (wdefines idth)
     const height = 4; // how high the food can be thrown (height above pan)
+
+    const [panPosition, setPanPosition] = useState(0);
+
+    const handleLeftClick = () => {
+        setPanPosition(Math.max(0, panPosition - 1));
+    }
+
+    const handleRightClick = () => {
+        setPanPosition(Math.min(food.length - 1, panPosition + 1));
+    }
 
     return (
         <div className="Chef">
@@ -40,7 +52,7 @@ function Chef(/*props: ChefProps*/) {
                     </tr>
                     <tr>
                         {food.map((elem, index) => (
-                            <td>🍳</td>
+                            <td>{panPosition === index ? "🍳" : ""}</td>
                         ))}
                     </tr>
                     <tr>
@@ -53,8 +65,8 @@ function Chef(/*props: ChefProps*/) {
             </table>
 
             <div className="ControlButtons">
-                <button>{"<"}</button>
-                <button>{">"}</button>
+                <button onClick={handleLeftClick}>{"<"}</button>
+                <button onClick={handleRightClick}>{">"}</button>
             </div>
         </div>
     )
