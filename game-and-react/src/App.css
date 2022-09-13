@@ -27,6 +27,11 @@
   width: 3em;
 }
 
+.GameTable .DebugRow {
+  font-size: 20pt;
+  font-family: monospace;
+}
+
 .ControlButtons {
   padding-top: 4em;
 }

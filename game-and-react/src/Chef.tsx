@@ -3,7 +3,7 @@
 
 }*/
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /*
  * use emojis:
@@ -47,25 +47,70 @@ function Chef(/*props: ChefProps*/) {
     const moveFood = () => {
 
         if (foodPos0 === height - 1) {
-            setFoodDir0("down")
+            setFoodDir0("down");
+            setFoodPos0(old => old - 1 );
+        } else {
+            setFoodPos0(old => foodDir0 === "up" ? old + 1 : old - 1);
         }
         if (foodPos1 === height - 1) {
-            setFoodDir1("down")
+            setFoodDir1("down");
+            setFoodPos1(old => old - 1);
+        } else {
+            setFoodPos1(old => foodDir1 === "up" ? old + 1 : old - 1);
         }
         if (foodPos2 === height - 1) {
-            setFoodDir2("down")
+            setFoodDir2("down");
+            setFoodPos2(old => old - 1);
+        } else {
+            setFoodPos2(old => foodDir2 === "up" ? old + 1 : old - 1);
         }
         if (foodPos3 === height - 1) {
-            setFoodDir3("down")
+            setFoodDir3("down");
+            setFoodPos3(old => old - 1);
+        } else {
+            setFoodPos3(old => foodDir3 === "up" ? old + 1 : old - 1);
         }
 
-        setFoodPos0(old => foodDir0 === "up" ? old + 1 : old - 1);
-        setFoodPos1(old => foodDir1 === "up" ? old + 1 : old - 1);
-        setFoodPos2(old => foodDir2 === "up" ? old + 1 : old - 1);
-        setFoodPos3(old => foodDir3 === "up" ? old + 1 : old - 1);
         
-        // possible bug: setFoodPos uses old directions
+        // possible bug: setFoodPos uses old directions, if setFoodPosX depends in foodDirX
 
+    }
+
+    useEffect(() => {
+        if (foodPos0 === -1 && panPosition === 0 && panLifted) {
+            console.log("foodPos0 === 0 && panPosition === 0 && panLifted");
+            setFoodDir0("up");
+            setFoodPos0(0);
+        }
+    }, [foodPos0, panPosition, panLifted]);
+
+    useEffect(() => {
+        if (foodPos1 === -1 && panPosition === 1 && panLifted) {
+            setFoodDir1("up");
+            setFoodPos1(0);
+        }
+    }, [foodPos1, panPosition, panLifted]);
+
+    useEffect(() => {
+        if (foodPos2 === -1 && panPosition === 2 && panLifted) {
+            setFoodDir2("up");
+            setFoodPos2(0);
+        }
+    }, [foodPos2, panPosition, panLifted]);
+
+    useEffect(() => {
+        if (foodPos3 === -1 && panPosition === 3 && panLifted) {
+            setFoodDir3("up");
+            setFoodPos3(0);
+        }
+    }, [foodPos3, panPosition, panLifted]);
+
+
+    const onLift = () => {
+        if (!panLifted){
+            setPanLifted(true);
+            setTimeout(() => setPanLifted(false), 500 /*ms*/);
+        }
     }
 
     return (
@@ -74,6 +119,12 @@ function Chef(/*props: ChefProps*/) {
             
             <table className="GameTable">
                 <tbody>
+                    <tr className={"DebugRow"}>
+                        <td>{foodPos0}, {foodDir0}</td>
+                        <td>{foodPos1}, {foodDir1}</td>
+                        <td>{foodPos2}, {foodDir2}</td>
+                        <td>{foodPos3}, {foodDir3}</td>
+                    </tr>
                     {Array.from(Array(height).keys()).map(y => (
                         <tr key={y} className="Air">
                             {/* {food.map((elem, x) => (
@@ -142,7 +193,7 @@ function Chef(/*props: ChefProps*/) {
                 <button onClick={handleRightClick}>{">"}</button>
             </div>
             <div className="DebugButtons">
-                <button onClick={() => setPanLifted((old) => !old)}>lift</button>
+                <button onClick={onLift}>lift</button>
                 <button onClick={() => moveFood()}>moveFood</button>
             </div>
         </div>
