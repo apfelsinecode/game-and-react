@@ -39,12 +39,12 @@ function Chef(/*props: ChefProps*/) {
     // Pan Movement //
 
     const handleLeftClick = () => {
-        setPanPosition(Math.max(0, panPosition - 1));
+        setPanPosition(old => Math.max(0, old - 1));
         setPanLifted(false);
     }
 
     const handleRightClick = () => {
-        setPanPosition(Math.min(food.length - 1, panPosition + 1));
+        setPanPosition((old) => Math.min(food.length - 1, old + 1));
         setPanLifted(false);
     }
 
@@ -91,7 +91,6 @@ function Chef(/*props: ChefProps*/) {
 
     useEffect(() => {
         if (foodPos0 === -1 && panPosition === 0 && panLifted) {
-            console.log("foodPos0 === 0 && panPosition === 0 && panLifted");
             setFoodDir0("up");
             setFoodPos0(0);
         }
@@ -216,25 +215,47 @@ function Chef(/*props: ChefProps*/) {
 
     // Keyboard controls
 
-    const onKeyDown = (event: React.KeyboardEvent) => {
+    const onKeyDown = (event: KeyboardEvent) => {
         console.log(event);
         switch (event.code) {
             case "ArrowLeft":
+            case "KeyA":
+            case "KeyJ":
+            case "Numpad4":
                 handleLeftClick();
                 break;
             case "ArrowRight":
+            case "KeyD":
+            case "KeyL":
+            case "Numpad6":
                 handleRightClick();
                 break;
             case "Space":
+            case "ArrowUp":
+            case "KeyW":
+            case "KeyI":
+            case "Numpad8":
                 onLift();
+                break;
+            case "Escape":
+                onPlayPause();
                 break;
             default:
                 break;
         }
     }
 
+    useEffect(() => {
+        console.log("add", onKeyDown);
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            console.log("remove", onKeyDown);
+            document.removeEventListener("keydown", onKeyDown)
+        }
+    }, []);
+
     return (
-        <div className="Chef" onKeyDown={onKeyDown}>
+        <div className="Chef">
             <h1>Game&amp;React: Chef</h1>
             
             <table className="GameTable">
