@@ -40,16 +40,18 @@ function Chef(/*props: ChefProps*/) {
 
     const handleLeftClick = () => {
         setPanPosition(Math.max(0, panPosition - 1));
+        setPanLifted(false);
     }
 
     const handleRightClick = () => {
         setPanPosition(Math.min(food.length - 1, panPosition + 1));
+        setPanLifted(false);
     }
 
     const onLift = () => {
         if (!panLifted){
             setPanLifted(true);
-            setTimeout(() => setPanLifted(false), 500 /*ms*/);
+            setTimeout(() => setPanLifted(false), 250 /*ms*/);
         }
     }
 
@@ -212,8 +214,27 @@ function Chef(/*props: ChefProps*/) {
         }
     }
 
+    // Keyboard controls
+
+    const onKeyDown = (event: React.KeyboardEvent) => {
+        console.log(event);
+        switch (event.code) {
+            case "ArrowLeft":
+                handleLeftClick();
+                break;
+            case "ArrowRight":
+                handleRightClick();
+                break;
+            case "Space":
+                onLift();
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
-        <div className="Chef">
+        <div className="Chef" onKeyDown={onKeyDown}>
             <h1>Game&amp;React: Chef</h1>
             
             <table className="GameTable">
