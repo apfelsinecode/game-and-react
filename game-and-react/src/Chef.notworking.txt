@@ -1,0 +1,19 @@
+
+    const [stepIntervalId, setStepIntervalId] = useState<any>();
+    
+    useEffect(() => {
+        /*async function sleep(time: number) {
+            return new Promise(resolve => setTimeout(resolve, time));
+        }*/
+        clearInterval(stepIntervalId);
+        if (running) {
+            const i = setInterval(() => step(), 1000);
+            // not working: step function is old and uses old position and direction states
+            setStepIntervalId(i);
+            return () => {
+                clearInterval(i);
+            }
+        }
+
+        
+    }, [running]);

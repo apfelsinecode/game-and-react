@@ -36,7 +36,7 @@ function Chef(/*props: ChefProps*/) {
     const [foodDir2, setFoodDir2] = useState<Direction>("up");
     const [foodDir3, setFoodDir3] = useState<Direction>("up");
 
-    const [running, setRunning] = useState(false);
+    // Pan Movement //
 
     const handleLeftClick = () => {
         setPanPosition(Math.max(0, panPosition - 1));
@@ -44,6 +44,13 @@ function Chef(/*props: ChefProps*/) {
 
     const handleRightClick = () => {
         setPanPosition(Math.min(food.length - 1, panPosition + 1));
+    }
+
+    const onLift = () => {
+        if (!panLifted){
+            setPanLifted(true);
+            setTimeout(() => setPanLifted(false), 500 /*ms*/);
+        }
     }
 
     const moveFood = () => {
@@ -78,6 +85,8 @@ function Chef(/*props: ChefProps*/) {
 
     }
 
+    // Food reflection from pan //
+
     useEffect(() => {
         if (foodPos0 === -1 && panPosition === 0 && panLifted) {
             console.log("foodPos0 === 0 && panPosition === 0 && panLifted");
@@ -108,28 +117,83 @@ function Chef(/*props: ChefProps*/) {
     }, [foodPos3, panPosition, panLifted]);
 
 
-    const onLift = () => {
-        if (!panLifted){
-            setPanLifted(true);
-            setTimeout(() => setPanLifted(false), 500 /*ms*/);
-        }
-    }
+    // automatic food movement
 
-    const step = () => {
-        console.log("move");
-        moveFood();
-    }
+    const [running, setRunning] = useState(false);
+
+    const [requestMove0, setRequestMove0] = useState(false);
+    const [requestMove1, setRequestMove1] = useState(false);
+    const [requestMove2, setRequestMove2] = useState(false);
+    const [requestMove3, setRequestMove3] = useState(false);
+
+    useEffect(() => {
+        if (requestMove0) {
+            if (foodPos0 >= height - 1) {
+                setFoodDir0("down");
+                setFoodPos0(old => old - 1 );
+            } else {
+                setFoodPos0(old => foodDir0 === "up" ? old + 1 : old - 1);
+            }
+            setRequestMove0(false);
+        }
+        // eslint-disable-next-line
+    }, [requestMove0]);
+
+    useEffect(() => {
+        if (requestMove1) {
+            if (foodPos1 >= height - 1) {
+                setFoodDir1("down");
+                setFoodPos1(old => old - 1 );
+            } else {
+                setFoodPos1(old => foodDir1 === "up" ? old + 1 : old - 1);
+            }
+            setRequestMove1(false);
+        }
+        // eslint-disable-next-line
+    }, [requestMove1]);
+
+    useEffect(() => {
+        if (requestMove2) {
+            if (foodPos2 >= height - 1) {
+                setFoodDir2("down");
+                setFoodPos2(old => old - 1 );
+            } else {
+                setFoodPos2(old => foodDir2 === "up" ? old + 1 : old - 1);
+            }
+            setRequestMove2(false);
+        }
+        // eslint-disable-next-line
+    }, [requestMove2]);
+
+    useEffect(() => {
+        if (requestMove3) {
+            if (foodPos3 >= height - 1) {
+                setFoodDir3("down");
+                setFoodPos3(old => old - 1 );
+            } else {
+                setFoodPos3(old => foodDir3 === "up" ? old + 1 : old - 1);
+            }
+            setRequestMove3(false);
+        }
+        // eslint-disable-next-line
+    }, [requestMove3]);
+
+
 
     const [stepIntervalId, setStepIntervalId] = useState<any>();
     
     useEffect(() => {
-        /*async function sleep(time: number) {
-            return new Promise(resolve => setTimeout(resolve, time));
-        }*/
-        clearInterval(stepIntervalId);
+
+        // clearInterval(stepIntervalId);
+        console.log("cleared", stepIntervalId);
+
         if (running) {
-            const i = setInterval(() => step(), 1000);
-            // not working: step function is old and uses old position and direction states
+            const i = setInterval(() => {
+                setRequestMove0(true);
+                setRequestMove1(true);
+                setRequestMove2(true);
+                setRequestMove3(true);
+            }, 1000);
             setStepIntervalId(i);
             return () => {
                 clearInterval(i);
@@ -230,7 +294,7 @@ function Chef(/*props: ChefProps*/) {
             <div className="DebugButtons">
                 <button onClick={onLift}>lift</button>
                 <button onClick={() => moveFood()}>moveFood</button>
-                <button onClick={() => setRunning(old => !old)}>{running ? "Pause" : "Play"}</button>
+                <button onClick={onPlayPause}>{running ? "Pause" : "Play"}</button>
             </div>
         </div>
     )
