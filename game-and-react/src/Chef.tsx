@@ -4,6 +4,7 @@
 }*/
 
 import { useEffect, useState } from "react";
+import { ChefGameState } from "./ChefGameState";
 
 /*
  * use emojis:
@@ -19,14 +20,13 @@ function Chef(/*props: ChefProps*/) {
     const food = ['🥩', '🥦', '🥓', '🐟']; // food for the pans (defines width)
     const height = 4; // how high the food can be thrown (height above pan)
 
-    const [panPosition, setPanPosition] = useState(0);
+    const [chefGameState, setChefGameState] = useState(() => new ChefGameState());
 
-    const [panLifted, setPanLifted] = useState(false);
+    // const [panPosition, setPanPosition] = useState(0);
 
-    // const [foodPositions, setFoodPositions] = useState([0, 3, 1, 2]);
-    // const [foodDirections, setFoodDirections] = useState<Direction[]>(["up", "down", "up", "up"])
+    // const [panLifted, setPanLifted] = useState(false);
 
-    const [foodPos0, setFoodPos0] = useState(0);
+    /*const [foodPos0, setFoodPos0] = useState(0);
     const [foodPos1, setFoodPos1] = useState(3);
     const [foodPos2, setFoodPos2] = useState(1);
     const [foodPos3, setFoodPos3] = useState(2);
@@ -34,29 +34,42 @@ function Chef(/*props: ChefProps*/) {
     const [foodDir0, setFoodDir0] = useState<Direction>("up");
     const [foodDir1, setFoodDir1] = useState<Direction>("down");
     const [foodDir2, setFoodDir2] = useState<Direction>("up");
-    const [foodDir3, setFoodDir3] = useState<Direction>("up");
+    const [foodDir3, setFoodDir3] = useState<Direction>("up");*/
 
     // Pan Movement //
 
     const handleLeftClick = () => {
-        setPanPosition(old => Math.max(0, old - 1));
-        setPanLifted(false);
+        // setPanPosition(old => Math.max(0, old - 1));
+        // setPanLifted(false);
+        setChefGameState(s => s.leftClick());
     }
 
     const handleRightClick = () => {
-        setPanPosition((old) => Math.min(food.length - 1, old + 1));
-        setPanLifted(false);
+        // setPanPosition((old) => Math.min(food.length - 1, old + 1));
+        // setPanLifted(false);
+        setChefGameState(s => {
+            console.log("old value", s);
+            const newValue = s.rightClick();
+            console.log("new value", newValue);
+            return s.rightClick();
+        });
     }
 
     const onLift = () => {
-        if (!panLifted){
+        /*if (!panLifted){
             setPanLifted(true);
-            setTimeout(() => setPanLifted(false), 250 /*ms*/);
+            setTimeout(() => setPanLifted(false), 250 /*ms* /);
+        }*/
+        if (!chefGameState.panLifted) {
+            setChefGameState(s => s.lift());
+            setTimeout(() => setChefGameState(s => s.unlift()), 250 /*ms*/);
         }
     }
 
     const moveFood = () => {
-        console.log(foodPos0, foodDir0, foodPos2, foodDir2);
+        [0, 1, 2, 3].forEach(i => setChefGameState(s => s.moveFood(i as 0 | 1 | 2 | 3)))
+
+        /*console.log(foodPos0, foodDir0, foodPos2, foodDir2);
         if (foodPos0 >= height - 1) {
             setFoodDir0("down");
             setFoodPos0(old => old - 1 );
@@ -80,7 +93,7 @@ function Chef(/*props: ChefProps*/) {
             setFoodPos3(old => old - 1);
         } else {
             setFoodPos3(old => foodDir3 === "up" ? old + 1 : old - 1);
-        }
+        }*/
 
         
         // possible bug: setFoodPos uses old directions, if setFoodPosX depends in foodDirX
@@ -89,7 +102,7 @@ function Chef(/*props: ChefProps*/) {
 
     // Food reflection from pan //
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (foodPos0 === -1 && panPosition === 0 && panLifted) {
             setFoodDir0("up");
             setFoodPos0(0);
@@ -115,19 +128,19 @@ function Chef(/*props: ChefProps*/) {
             setFoodDir3("up");
             setFoodPos3(0);
         }
-    }, [foodPos3, panPosition, panLifted]);
+    }, [foodPos3, panPosition, panLifted]);*/
 
 
     // automatic food movement
 
     const [running, setRunning] = useState(false);
 
-    const [requestMove0, setRequestMove0] = useState(false);
+    /*const [requestMove0, setRequestMove0] = useState(false);
     const [requestMove1, setRequestMove1] = useState(false);
     const [requestMove2, setRequestMove2] = useState(false);
-    const [requestMove3, setRequestMove3] = useState(false);
+    const [requestMove3, setRequestMove3] = useState(false);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (requestMove0) {
             if (foodPos0 >= height - 1) {
                 setFoodDir0("down");
@@ -177,7 +190,7 @@ function Chef(/*props: ChefProps*/) {
             setRequestMove3(false);
         }
         // eslint-disable-next-line
-    }, [requestMove3]);
+    }, [requestMove3]);*/
 
 
 
@@ -190,10 +203,7 @@ function Chef(/*props: ChefProps*/) {
 
         if (running) {
             const i = setInterval(() => {
-                setRequestMove0(true);
-                setRequestMove1(true);
-                setRequestMove2(true);
-                setRequestMove3(true);
+                moveFood();
             }, 1000);
             setStepIntervalId(i);
             return () => {
@@ -254,18 +264,27 @@ function Chef(/*props: ChefProps*/) {
         }
     }, []);
 
+    const indices: (0 | 1 | 2 | 3)[] = [0, 1, 2, 3];
+
     return (
         <div className="Chef">
             <h1>Game&amp;React: Chef</h1>
             
             <table className="GameTable">
                 <tbody>
-                    <tr className={"DebugRow"}>
+                    <tr className="DebugRow">
+                        {
+                            indices.map(i => {
+                                return <td key={i}>{chefGameState.foodPos[i]}, {chefGameState.foodDir[i]}</td>
+                            })
+                        }
+                    </tr>
+                    {/* <tr className={"DebugRow"}>
                         <td>{foodPos0}, {foodDir0}</td>
                         <td>{foodPos1}, {foodDir1}</td>
                         <td>{foodPos2}, {foodDir2}</td>
                         <td>{foodPos3}, {foodDir3}</td>
-                    </tr>
+                    </tr> */}
                     {Array.from(Array(height).keys()).map(y => (
                         <tr key={y} className="Air">
                             {/* {food.map((elem, x) => (
@@ -273,58 +292,29 @@ function Chef(/*props: ChefProps*/) {
                                     {foodPositions[x] ===  height - 1 - y ? elem: ''}
                                 </td>
                             ))} */}
-                            <td className={foodDir0 === "down" ? "rotate" : ""}>
-                                {foodPos0 === height - 1 - y ? food[0] : ""}
-                            </td>
-                            <td className={foodDir1 === "down" ? "rotate" : ""}>
-                                {foodPos1 === height - 1 - y ? food[1] : ""}
-                            </td>
-                            <td className={foodDir2 === "down" ? "rotate" : ""}>
-                                {foodPos2 === height - 1 - y ? food[2] : ""}
-                            </td>
-                            <td className={foodDir3 === "down" ? "rotate" : ""}>
-                                {foodPos3 === height - 1 - y ? food[3] : ""}
-                            </td>
+                            {indices.map(i => (
+                                <td key={i} className={chefGameState.foodDir[i] === "down" ? "rotate" : ""}>
+                                    {chefGameState.foodPos[i] === height - 1 - y ? food[i] : ""}
+                                </td>
+                            ))}
                         </tr>
                     ))}
                     <tr>
-                        {food.map((elem, index) => (
-                            <td key={index}>{panPosition === index && panLifted ? "🍳" : ""}</td>
+                        {indices.map(i => (
+                            <td key={i}>
+                                {chefGameState.panPosition === i && chefGameState.panLifted ? "🍳" : ""}
+                            </td>
                         ))}
                     </tr>
+                    <FoodRow y={-1} chefGameState={chefGameState} food={food}/>
                     <tr>
-                        <td className={foodDir0 === "down" ? "rotate" : ""}>
-                                {foodPos0 === -1 ? food[0] : ""}
+                        {indices.map(i => (
+                            <td key={i}>
+                                {chefGameState.panPosition === i && !chefGameState.panLifted ? "🍳" : ""}
                             </td>
-                            <td className={foodDir1 === "down" ? "rotate" : ""}>
-                                {foodPos1 === -1 ? food[1] : ""}
-                            </td>
-                            <td className={foodDir2 === "down" ? "rotate" : ""}>
-                                {foodPos2 === -1 ? food[2] : ""}
-                            </td>
-                            <td className={foodDir3 === "down" ? "rotate" : ""}>
-                                {foodPos3 === -1 ? food[3] : ""}
-                            </td>
-                    </tr>
-                    <tr>
-                        {food.map((elem, index) => (
-                            <td key={index}>{panPosition === index && !panLifted ? "🍳" : ""}</td>
                         ))}
                     </tr>
-                    <tr>
-                        <td className={foodDir0 === "down" ? "rotate" : ""}>
-                                {foodPos0 === -2 ? food[0] : ""}
-                            </td>
-                            <td className={foodDir1 === "down" ? "rotate" : ""}>
-                                {foodPos1 === -2 ? food[1] : ""}
-                            </td>
-                            <td className={foodDir2 === "down" ? "rotate" : ""}>
-                                {foodPos2 === -2 ? food[2] : ""}
-                            </td>
-                            <td className={foodDir3 === "down" ? "rotate" : ""}>
-                                {foodPos3 === -2 ? food[3] : ""}
-                            </td>
-                    </tr>
+                    <FoodRow y={-2} chefGameState={chefGameState} food={food}/>
                 </tbody>
                 
             </table>
@@ -340,6 +330,26 @@ function Chef(/*props: ChefProps*/) {
             </div>
         </div>
     )
+}
+
+interface FoodRowProps {
+    y: number;
+    chefGameState: ChefGameState;
+    food: string[];
+}
+
+function FoodRow(props: FoodRowProps) {
+    const indices: (0 | 1 | 2 | 3)[] = [0, 1, 2, 3];
+    const { foodPos, foodDir } = props.chefGameState;
+    // const foodPos = props.chefGameState.foodPos;
+    // const foodDir = props.chefGameState.foodDir;
+    return <tr>{
+        indices.map(i => (
+            <td key={i} className={foodDir[i] === "down" ? "rotate" : ""}>
+                {foodPos[i] === props.y ? props.food[i] : ""}
+            </td>        
+        ))
+    }</tr>
 }
 
 export default Chef;
