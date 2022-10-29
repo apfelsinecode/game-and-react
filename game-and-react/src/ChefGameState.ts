@@ -22,57 +22,59 @@ export class ChefGameState {
         3: "up",
     }
 
-    leftClick: () => ChefGameState = () => {
-        return {...this, panPosition: Math.max(0, this.panPosition - 1), panLifted: false};
-    }
 
-    rightClick: () => ChefGameState = () => {
-        const result = {...this, panPosition: Math.min(this.food.length - 1, this.panPosition + 1), panLifted: false};
-        console.log("this", this);
-        console.log("copy", result);
-        console.log(this.food.length - 1, this.panPosition + 1)
-        return result;
-    }
+}
 
-    lift: () => ChefGameState = () => {
-        return {...this, panLifted: true};
-    }
+export function leftClick(c: ChefGameState): ChefGameState {
+    return {...c, panPosition: Math.max(0, c.panPosition - 1), panLifted: false};
+}
 
-    unlift: () => ChefGameState = () => {
-        // return Object.assign({}, this, {panLifted: false})
-        return {...this, panLifted: false};
-    }
+export function rightClick(c: ChefGameState): ChefGameState {
+    const result = {...c, panPosition: Math.min(c.food.length - 1, c.panPosition + 1), panLifted: false};
+    console.log("this", c);
+    console.log("copy", result);
+    console.log(c.food.length - 1, c.panPosition + 1)
+    return result;
+}
 
-    /*stepFood0(): ChefGameState {
-        // if (this.foodDir0)
-        if (this.foodPos0 === this.height || (this.foodPos0 === this.height - 1 && Math.random() > 0.5)) {
-            return {...this, foodDir0: "down", foodPos0: this.foodPos0 - 1};
-        } else {
-            return {...this, foodPos0: (this.foodDir0 === "down" ? this.foodPos0 - 1 : this.foodPos0 + 1)};
-        }
-    }*/
+export function lift(c: ChefGameState): ChefGameState {
+    return {...c, panLifted: true};
+}
 
-    moveFood: (index: 0 | 1 | 2 | 3) => ChefGameState = (index: 0 | 1 | 2 | 3) => {
-        if (this.foodPos[index] === this.height || (this.foodPos[index] === this.height - 1 && Math.random() > 0.5)) {
-            return {
-                ...this,
-                foodDir: {
-                    ...this.foodDir,
-                    [index]: "down"
-                },
-            };
-        } else {
-            return {
-                ...this,
-                foodPos: {
-                    ...this.foodPos,
-                    [index]: this.foodDir[index] === "down" ? this.foodPos[index] - 1 : this.foodDir[index] + 1
-                },
-            };
-        }
-    }
+export function unlift(c: ChefGameState): ChefGameState {
+    // return Object.assign({}, this, {panLifted: false})
+    return {...c, panLifted: false};
+}
 
-    reflect: () => ChefGameState = () => {
-        return this; // TODO
+/*stepFood0(): ChefGameState {
+    // if (this.foodDir0)
+    if (this.foodPos0 === this.height || (this.foodPos0 === this.height - 1 && Math.random() > 0.5)) {
+        return {...this, foodDir0: "down", foodPos0: this.foodPos0 - 1};
+    } else {
+        return {...this, foodPos0: (this.foodDir0 === "down" ? this.foodPos0 - 1 : this.foodPos0 + 1)};
     }
+}*/
+
+export function moveFood(c: ChefGameState, index: 0 | 1 | 2 | 3): ChefGameState {
+    if (c.foodPos[index] === c.height || (c.foodPos[index] === c.height - 1 && Math.random() > 0.5)) {
+        return {
+            ...c,
+            foodDir: {
+                ...c.foodDir,
+                [index]: "down"
+            },
+        };
+    } else {
+        return {
+            ...c,
+            foodPos: {
+                ...c.foodPos,
+                [index]: c.foodDir[index] === "down" ? c.foodPos[index] - 1 : c.foodDir[index] + 1
+            },
+        };
+    }
+}
+
+export function reflect(c: ChefGameState): ChefGameState {
+    return c; // TODO
 }

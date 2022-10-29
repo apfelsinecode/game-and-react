@@ -4,7 +4,7 @@
 }*/
 
 import { useEffect, useState } from "react";
-import { ChefGameState } from "./ChefGameState";
+import { ChefGameState, leftClick, lift, moveFood, rightClick, unlift } from "./ChefGameState";
 
 /*
  * use emojis:
@@ -41,17 +41,17 @@ function Chef(/*props: ChefProps*/) {
     const handleLeftClick = () => {
         // setPanPosition(old => Math.max(0, old - 1));
         // setPanLifted(false);
-        setChefGameState(s => s.leftClick());
+        setChefGameState(c => leftClick(c));
     }
 
     const handleRightClick = () => {
         // setPanPosition((old) => Math.min(food.length - 1, old + 1));
         // setPanLifted(false);
-        setChefGameState(s => {
-            console.log("old value", s);
-            const newValue = s.rightClick();
+        setChefGameState(c => {
+            console.log("old value", c);
+            const newValue = rightClick(c);
             console.log("new value", newValue);
-            return s.rightClick();
+            return rightClick(c);
         });
     }
 
@@ -61,13 +61,13 @@ function Chef(/*props: ChefProps*/) {
             setTimeout(() => setPanLifted(false), 250 /*ms* /);
         }*/
         if (!chefGameState.panLifted) {
-            setChefGameState(s => s.lift());
-            setTimeout(() => setChefGameState(s => s.unlift()), 250 /*ms*/);
+            setChefGameState(c => lift(c));
+            setTimeout(() => setChefGameState(c => unlift(c)), 250 /*ms*/);
         }
     }
 
-    const moveFood = () => {
-        [0, 1, 2, 3].forEach(i => setChefGameState(s => s.moveFood(i as 0 | 1 | 2 | 3)))
+    const onMoveFood = () => {
+        [0, 1, 2, 3].forEach(i => setChefGameState(c => moveFood(c, i as 0 | 1 | 2 | 3)))
 
         /*console.log(foodPos0, foodDir0, foodPos2, foodDir2);
         if (foodPos0 >= height - 1) {
@@ -203,7 +203,7 @@ function Chef(/*props: ChefProps*/) {
 
         if (running) {
             const i = setInterval(() => {
-                moveFood();
+                onMoveFood();
             }, 1000);
             setStepIntervalId(i);
             return () => {
@@ -325,7 +325,7 @@ function Chef(/*props: ChefProps*/) {
             </div>
             <div className="DebugButtons">
                 <button onClick={onLift}>lift</button>
-                <button onClick={() => moveFood()}>moveFood</button>
+                <button onClick={() => onMoveFood()}>moveFood</button>
                 <button onClick={onPlayPause}>{running ? "Pause" : "Play"}</button>
             </div>
         </div>
