@@ -76,5 +76,22 @@ export function moveFood(c: ChefGameState, index: 0 | 1 | 2 | 3): ChefGameState 
 }
 
 export function reflect(c: ChefGameState): ChefGameState {
-    return c; // TODO
+
+    let newFoodDir = {}
+    let newFoodPos = {}
+    for (let i in [0, 1, 2, 3]) {
+        if (c.foodPos[i] === -1 && c.panPositon === 1 && c.panLifted) {
+            newFoodPos[i] = "up";
+            newFoodDir[i] = 0;
+        }
+        newFoodDir[i] =  ? "up" : c.foodDir[i];
+
+    }
+    return {
+        ...c,
+        foodDir: {
+            0: (c.foodDir[0]),
+        }
+    }
+    // TODO
 }
