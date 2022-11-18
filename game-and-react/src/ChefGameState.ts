@@ -79,18 +79,21 @@ export function reflect(c: ChefGameState): ChefGameState {
 
     let newFoodDir = {}
     let newFoodPos = {}
-    for (let i in [0, 1, 2, 3]) {
-        if (c.foodPos[i] === -1 && c.panPositon === 1 && c.panLifted) {
+    /*for (let i in [0, 1, 2, 3]) {
+        if (c.foodPos[i] === -1 && c.panPosition === 1 && c.panLifted) {
             newFoodPos[i] = "up";
             newFoodDir[i] = 0;
         }
-        newFoodDir[i] =  ? "up" : c.foodDir[i];
+        // newFoodDir[i] = c.foodDir ? "up" : c.foodDir[i];
 
-    }
+    }*/
     return {
         ...c,
         foodDir: {
-            0: (c.foodDir[0]),
+            0: c.foodDir[0],
+            1: c.foodDir[1],
+            2: c.foodDir[2],
+            3: c.foodDir[3],
         }
     }
     // TODO
