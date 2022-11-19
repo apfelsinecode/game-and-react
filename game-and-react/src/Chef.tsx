@@ -1,7 +1,4 @@
 
-/*interface ChefProps {
-
-}*/
 
 import { useEffect, useState } from "react";
 import { ChefGameState, leftClick, lift, moveFood, rightClick, unlift } from "./ChefGameState";
@@ -15,7 +12,12 @@ import { ChefGameState, leftClick, lift, moveFood, rightClick, unlift } from "./
 
 type Direction = "up" | "down";
 
-function Chef(/*props: ChefProps*/) {
+
+interface ChefProps {
+    onExit: () => void;
+}
+
+function Chef(props: ChefProps) {
     
     const food = ['🥩', '🥦', '🥓', '🐟']; // food for the pans (defines width)
     const height = 4; // how high the food can be thrown (height above pan)
@@ -327,6 +329,9 @@ function Chef(/*props: ChefProps*/) {
                 <button onClick={onLift}>lift</button>
                 <button onClick={() => onMoveFood()}>moveFood</button>
                 <button onClick={onPlayPause}>{running ? "Pause" : "Play"}</button>
+            </div>
+            <div className="ExitButton">
+                <button onClick={props.onExit}>exit</button>
             </div>
         </div>
     )
