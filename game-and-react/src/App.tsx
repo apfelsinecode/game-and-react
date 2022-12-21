@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import Chef from './Chef';
-import TicTacToe from "./TicTacToe";
+import TicTacToe from "./tictactoe/TicTacToe";
 
 type GameName = "Chef" | "TicTacToe" | "null";
 
