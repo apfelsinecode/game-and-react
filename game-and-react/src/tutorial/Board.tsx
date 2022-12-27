@@ -3,7 +3,7 @@ import './styles.css'
 
 export default function Board() {
 
-    const [values, setValues] = useState(Array(9).fill(""))
+    const [values, setValues] = useState(Array(9).fill(null))
 
     return (
         <>
@@ -27,7 +27,7 @@ export default function Board() {
 }
 
 interface SquareProps{
-    value: "X" | "O" | ""
+    value: "X" | "O" | null
 }
 
 function Square(props: SquareProps) {
