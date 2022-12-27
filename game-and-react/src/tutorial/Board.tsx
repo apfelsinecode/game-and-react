@@ -3,12 +3,19 @@ import './styles.css'
 
 export default function Board() {
 
-    const [values, setValues] = useState(Array(9).fill(null))
+    const [values, setValues] = useState<Array<'X' | 'O' | null>>(Array(9).fill(null))
+    const [xIsNext, setXIsNext] = useState(true);
 
     const handleClick = (i: number) => {
-        const valuesCopy = values.slice();
-        valuesCopy[i] = 'X';
-        setValues(valuesCopy);
+        if (!values[i]) {
+            const valuesCopy = values.slice();
+            valuesCopy[i] = xIsNext ? 'X' : 'O';
+            setValues(valuesCopy);
+            setXIsNext((oldValue) => {
+                return !oldValue
+            })
+        }
+        
     }
 
     return (
@@ -39,21 +46,29 @@ interface SquareProps{
 
 function Square(props: SquareProps) {
 
-    /*const click = () => {
-        switch (value) {
-            case "":
-                setValue("X");
-                break;
-            case "X":
-                setValue("O")
-                break;
-            case "O":
-                setValue("")
-                break;
-
-        }
-    }*/
-
     return <button onClick={props.onClick} className="Square">{props.value}</button>
 
+}
+
+function calculateWinner(squares: Array<'X' | 'O' | null>): 'X' | 'O' | null {
+    const lines = [
+        [0, 1 ,2],
+        [3, 4, 5],
+        [6, 7, 8],
+
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+
+        [0, 4, 8],
+        [2, 4 ,6],
+    ];
+
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
 }
