@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import './App.css';
 import Chef from './Chef';
 import TicTacToe from "./TicTacToe/TicTacToe";
+import Board from './tutorial/Board';
 
-type GameName = "Chef" | "TicTacToe" | "null";
+type GameName = "Chef" | "TicTacToe" | "TTTTutorial" | "null";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
   const games = {
       "Chef": <Chef onExit={() => setSelection("null")}/>,
       "TicTacToe": <TicTacToe/>,
+      "TTTTutorial": <TTTTutorial/>,
       "null": <Menu setSelection={setSelection}/>,
   }
   return (
@@ -43,8 +45,15 @@ function Menu(props: MenuProps) {
             <ul>
                 <li><button onClick={() => props.setSelection("Chef")}>Chef</button></li>
                 <li><button onClick={() => props.setSelection("TicTacToe")}>TicTacToe</button></li>
+                <li><button onClick={() => props.setSelection("TTTTutorial")}>TicTacToe Tutorial Version</button></li>
             </ul>
     )
+}
+
+function TTTTutorial() {
+  return <div>TicTacToe Tutorial Edition<br/>
+    <Board/>
+  </div>
 }
 
 export default App;
