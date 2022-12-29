@@ -7,7 +7,8 @@ export default function Board() {
     const [xIsNext, setXIsNext] = useState(true);
 
     const handleClick = (i: number) => {
-        if (!values[i]) {
+
+        if (!values[i] && !calculateWinner(values)) {
             const valuesCopy = values.slice();
             valuesCopy[i] = xIsNext ? 'X' : 'O';
             setValues(valuesCopy);
@@ -15,11 +16,21 @@ export default function Board() {
                 return !oldValue
             })
         }
+
         
+        
+    }
+    const winner = calculateWinner(values)
+    let status: string;
+    if (winner) {
+        status = `Winner ${winner}`;
+    } else {
+        status = `NextPlayer: ${xIsNext ? "X" : "O"}`;
     }
 
     return (
         <>
+            <div className="status">{status}</div>
             <div className="board-row">
                 <Square value={values[0]} onClick={() => handleClick(0)}/>
                 <Square value={values[1]} onClick={() => handleClick(1)}/>
