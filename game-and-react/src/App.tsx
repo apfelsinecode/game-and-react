@@ -41,12 +41,19 @@ interface MenuProps {
 }
 
 function Menu(props: MenuProps) {
+  const [counter, setCounter] = useState(0);
     return (
+      <>
             <ul>
                 <li><button onClick={() => props.setSelection("Chef")}>Chef</button></li>
                 <li><button onClick={() => props.setSelection("TicTacToe")}>TicTacToe</button></li>
                 <li><button onClick={() => props.setSelection("TTTTutorial")}>TicTacToe Tutorial Version</button></li>
             </ul>
+            <div>
+              Counter: {counter} <br/>
+              <button onClick={() => {setCounter(counter - 1)}}>-</button><button onClick={() => {setCounter(counter + 1)}}>+</button>
+            </div>
+      </>
     )
 }
 
