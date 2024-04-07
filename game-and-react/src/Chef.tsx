@@ -57,37 +57,6 @@ function Chef(/*props: ChefProps*/) {
         }
     }
 
-    const moveFood = () => {
-        console.log(foodPos0, foodDir0, foodPos2, foodDir2);
-        if (foodPos0 >= height - 1) {
-            setFoodDir0("down");
-            setFoodPos0(old => old - 1 );
-        } else {
-            setFoodPos0(old => foodDir0 === "up" ? old + 1 : old - 1);
-        }
-        if (foodPos1 >= height - 1) {
-            setFoodDir1("down");
-            setFoodPos1(old => old - 1);
-        } else {
-            setFoodPos1(old => foodDir1 === "up" ? old + 1 : old - 1);
-        }
-        if (foodPos2 >= height - 1) {
-            setFoodDir2("down");
-            setFoodPos2(old => old - 1);
-        } else {
-            setFoodPos2(old => foodDir2 === "up" ? old + 1 : old - 1);
-        }
-        if (foodPos3 >= height - 1) {
-            setFoodDir3("down");
-            setFoodPos3(old => old - 1);
-        } else {
-            setFoodPos3(old => foodDir3 === "up" ? old + 1 : old - 1);
-        }
-
-        
-        // possible bug: setFoodPos uses old directions, if setFoodPosX depends in foodDirX
-
-    }
 
     // Food reflection from pan //
 
@@ -135,7 +104,7 @@ function Chef(/*props: ChefProps*/) {
 
     useEffect(() => {
         if (requestMove0) {
-            if (foodPos0 >= height - 1) {
+            if (foodPos0 >= height - 1 - Math.random()) {
                 setFoodDir0("down");
                 setFoodPos0(old => old - 1 );
             } else {
@@ -148,7 +117,7 @@ function Chef(/*props: ChefProps*/) {
 
     useEffect(() => {
         if (requestMove1) {
-            if (foodPos1 >= height - 1) {
+            if (foodPos1 >= height - 1 - (Math.random() * 2)) {
                 setFoodDir1("down");
                 setFoodPos1(old => old - 1 );
             } else {
@@ -161,7 +130,7 @@ function Chef(/*props: ChefProps*/) {
 
     useEffect(() => {
         if (requestMove2) {
-            if (foodPos2 >= height - 1) {
+            if (foodPos2 >= height - 1 - (Math.random() * 2)) {
                 setFoodDir2("down");
                 setFoodPos2(old => old - 1 );
             } else {
@@ -174,7 +143,7 @@ function Chef(/*props: ChefProps*/) {
 
     useEffect(() => {
         if (requestMove3) {
-            if (foodPos3 >= height - 1) {
+            if (foodPos3 >= height - 1 - Math.random()) {
                 setFoodDir3("down");
                 setFoodPos3(old => old - 1 );
             } else {
@@ -222,7 +191,6 @@ function Chef(/*props: ChefProps*/) {
     // Keyboard controls
 
     const onKeyDown = (event: KeyboardEvent) => {
-        console.log(event);
         switch (event.code) {
             case "ArrowLeft":
             case "KeyA":
@@ -263,7 +231,9 @@ function Chef(/*props: ChefProps*/) {
     return (
         <div className="Chef">
             <h1>Game&amp;React: Chef</h1>
-            
+            <div className="HintLine">
+                <span>(control with arrow keys / WASD if available, Esc to pause and unpause)</span>
+            </div>
             <table className="GameTable">
                 <tbody>
                     {/*<tr className={"DebugRow"}>
@@ -344,7 +314,7 @@ function Chef(/*props: ChefProps*/) {
                 
                 <button onClick={onPlayPause}>{running ? "Pause" : "Play"}</button>
             </div>
-            <div className="PointDisplay">
+            <div className="PointsDisplay">
                 <span>Points: {points}</span>
             </div>
         </div>

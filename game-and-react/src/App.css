@@ -47,6 +47,10 @@
   font-size: 24pt;
 }
 
+.PointsDisplay {
+  font-size: 32pt;
+}
+
 .rotate {
   transform: rotate(180deg);
 }
