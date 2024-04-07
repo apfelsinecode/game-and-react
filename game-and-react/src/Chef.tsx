@@ -330,12 +330,12 @@ function Chef(/*props: ChefProps*/) {
             </table>
 
             <div className="ControlButtons">
-                <button onClick={handleLeftClick}>{"<"}</button>
-                <button onClick={handleRightClick}>{">"}</button>
+                <button onClick={onLift}>{"▲"}</button><br/>
+                <button onClick={handleLeftClick}>{"◀"}</button>
+                <button onClick={handleRightClick}>{"▶"}</button>
             </div>
             <div className="DebugButtons">
-                <button onClick={onLift}>lift</button>
-                <button onClick={() => moveFood()}>moveFood</button>
+                
                 <button onClick={onPlayPause}>{running ? "Pause" : "Play"}</button>
             </div>
         </div>
