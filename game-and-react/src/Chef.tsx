@@ -260,12 +260,12 @@ function Chef(/*props: ChefProps*/) {
             
             <table className="GameTable">
                 <tbody>
-                    <tr className={"DebugRow"}>
+                    {/*<tr className={"DebugRow"}>
                         <td>{foodPos0}, {foodDir0}</td>
                         <td>{foodPos1}, {foodDir1}</td>
                         <td>{foodPos2}, {foodDir2}</td>
                         <td>{foodPos3}, {foodDir3}</td>
-                    </tr>
+    </tr>*/}
                     {Array.from(Array(height).keys()).map(y => (
                         <tr key={y} className="Air">
                             {/* {food.map((elem, x) => (
