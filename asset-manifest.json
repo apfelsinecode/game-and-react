@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/game-and-react/static/css/main.5d3c6b96.css",
-    "main.js": "/game-and-react/static/js/main.e5ae4a32.js",
-    "static/js/787.d3a22b89.chunk.js": "/game-and-react/static/js/787.d3a22b89.chunk.js",
+    "main.css": "/game-and-react/static/css/main.2174b686.css",
+    "main.js": "/game-and-react/static/js/main.b52c66f5.js",
+    "static/js/453.946b26c5.chunk.js": "/game-and-react/static/js/453.946b26c5.chunk.js",
     "index.html": "/game-and-react/index.html",
-    "main.5d3c6b96.css.map": "/game-and-react/static/css/main.5d3c6b96.css.map",
-    "main.e5ae4a32.js.map": "/game-and-react/static/js/main.e5ae4a32.js.map",
-    "787.d3a22b89.chunk.js.map": "/game-and-react/static/js/787.d3a22b89.chunk.js.map"
+    "main.2174b686.css.map": "/game-and-react/static/css/main.2174b686.css.map",
+    "main.b52c66f5.js.map": "/game-and-react/static/js/main.b52c66f5.js.map",
+    "453.946b26c5.chunk.js.map": "/game-and-react/static/js/453.946b26c5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5d3c6b96.css",
-    "static/js/main.e5ae4a32.js"
+    "static/css/main.2174b686.css",
+    "static/js/main.b52c66f5.js"
   ]
 }
