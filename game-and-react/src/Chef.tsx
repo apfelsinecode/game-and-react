@@ -19,6 +19,8 @@ function Chef(/*props: ChefProps*/) {
     const food = ['🥩', '🥦', '🥓', '🐟']; // food for the pans (defines width)
     const height = 4; // how high the food can be thrown (height above pan)
 
+    const [points, setPoints] = useState(0);
+
     const [panPosition, setPanPosition] = useState(0);
 
     const [panLifted, setPanLifted] = useState(false);
@@ -93,6 +95,7 @@ function Chef(/*props: ChefProps*/) {
         if (foodPos0 === -1 && panPosition === 0 && panLifted) {
             setFoodDir0("up");
             setFoodPos0(0);
+            setPoints(old => old + 1);
         }
     }, [foodPos0, panPosition, panLifted]);
 
@@ -100,6 +103,7 @@ function Chef(/*props: ChefProps*/) {
         if (foodPos1 === -1 && panPosition === 1 && panLifted) {
             setFoodDir1("up");
             setFoodPos1(0);
+            setPoints(old => old + 1);
         }
     }, [foodPos1, panPosition, panLifted]);
 
@@ -107,6 +111,7 @@ function Chef(/*props: ChefProps*/) {
         if (foodPos2 === -1 && panPosition === 2 && panLifted) {
             setFoodDir2("up");
             setFoodPos2(0);
+            setPoints(old => old + 1);
         }
     }, [foodPos2, panPosition, panLifted]);
 
@@ -114,6 +119,7 @@ function Chef(/*props: ChefProps*/) {
         if (foodPos3 === -1 && panPosition === 3 && panLifted) {
             setFoodDir3("up");
             setFoodPos3(0);
+            setPoints(old => old + 1);
         }
     }, [foodPos3, panPosition, panLifted]);
 
@@ -287,12 +293,12 @@ function Chef(/*props: ChefProps*/) {
                             </td>
                         </tr>
                     ))}
-                    <tr>
+                    <tr className="Air">
                         {food.map((elem, index) => (
                             <td key={index}>{panPosition === index && panLifted ? "🍳" : ""}</td>
                         ))}
                     </tr>
-                    <tr>
+                    <tr className="Air">
                         <td className={foodDir0 === "down" ? "rotate" : ""}>
                                 {foodPos0 === -1 ? food[0] : ""}
                             </td>
@@ -306,12 +312,12 @@ function Chef(/*props: ChefProps*/) {
                                 {foodPos3 === -1 ? food[3] : ""}
                             </td>
                     </tr>
-                    <tr>
+                    <tr className="Air">
                         {food.map((elem, index) => (
                             <td key={index}>{panPosition === index && !panLifted ? "🍳" : ""}</td>
                         ))}
                     </tr>
-                    <tr>
+                    <tr className="Air">
                         <td className={foodDir0 === "down" ? "rotate" : ""}>
                                 {foodPos0 === -2 ? food[0] : ""}
                             </td>
@@ -337,6 +343,9 @@ function Chef(/*props: ChefProps*/) {
             <div className="DebugButtons">
                 
                 <button onClick={onPlayPause}>{running ? "Pause" : "Play"}</button>
+            </div>
+            <div className="PointDisplay">
+                <span>Points: {points}</span>
             </div>
         </div>
     )
