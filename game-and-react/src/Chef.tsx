@@ -38,6 +38,23 @@ function Chef(/*props: ChefProps*/) {
     const [foodDir2, setFoodDir2] = useState<Direction>("up");
     const [foodDir3, setFoodDir3] = useState<Direction>("up");
 
+    const [gameEnded, setGameEnded] = useState(false);  // the game was lost and a new one should be startet when pressing play
+
+    // initialize the game //
+    const initGame = () => {
+        setPoints(0);
+
+        setFoodPos0(0);
+        setFoodPos1(3);
+        setFoodPos2(1);
+        setFoodPos3(2);
+        
+        setFoodDir0("up");
+        setFoodDir1("down");
+        setFoodDir2("up");
+        setFoodDir3("up");
+    }
+
     // Pan Movement //
 
     const handleLeftClick = () => {
@@ -92,8 +109,16 @@ function Chef(/*props: ChefProps*/) {
         }
     }, [foodPos3, panPosition, panLifted]);
 
+    // losing the game //
 
-    // automatic food movement
+    useEffect(() => {
+        if (foodPos0 < -1 || foodPos1 < -1 || foodPos2 < -1 || foodPos3 < -1) {
+            setRunning(false);
+            setGameEnded(true);
+        }
+    }, [foodPos0, foodPos1, foodPos2, foodPos3])
+
+    // automatic food movement //
 
     const [running, setRunning] = useState(false);
 
@@ -180,6 +205,9 @@ function Chef(/*props: ChefProps*/) {
     }, [running]);
 
     const onPlayPause = () => {
+        if (gameEnded) {
+            initGame();
+        }
         if (running) {
             // now pause
             setRunning(false);
@@ -316,6 +344,9 @@ function Chef(/*props: ChefProps*/) {
             </div>
             <div className="PointsDisplay">
                 <span>Points: {points}</span>
+            </div>
+            <div className="VersionDisplay">
+                <span>v0.2.0</span>
             </div>
         </div>
     )

@@ -1,9 +1,13 @@
+body {
+  background-color: lightgreen;
+}
+
 .App {
   text-align: center;
 }
 
 .Chef {
-  background-color: lightgreen;
+  
   padding: 1em;
 }
 
@@ -11,7 +15,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
-  font-size: 36pt;
+  font-size: 24pt;
 }
 
 .GameTable .Air {
@@ -37,7 +41,7 @@
 }
 
 .ControlButtons button {
-  font-size: 42pt;
+  font-size: 32pt;
   margin: 0.1em;
   padding: 0.25em;
   width: 3em;
