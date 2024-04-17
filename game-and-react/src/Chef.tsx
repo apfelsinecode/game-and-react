@@ -4,6 +4,7 @@
 }*/
 
 import { useEffect, useState } from "react";
+import Scoreboard from "./Scoreboard";
 
 /*
  * use emojis:
@@ -259,6 +260,7 @@ function Chef(/*props: ChefProps*/) {
     return (
         <div className="Chef">
             <h1>Game&amp;React: Chef</h1>
+            <Scoreboard/>
             <div className="HintLine">
                 <span>(control with arrow keys / WASD if available, Esc to pause and unpause)</span>
             </div>
