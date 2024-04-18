@@ -4,6 +4,7 @@
 }*/
 
 import { useEffect, useState } from "react";
+import SubmitScore from "./SubmitScore";
 
 /*
  * use emojis:
@@ -264,19 +265,10 @@ function Chef(/*props: ChefProps*/) {
             </div>
             <table className="GameTable">
                 <tbody>
-                    {/*<tr className={"DebugRow"}>
-                        <td>{foodPos0}, {foodDir0}</td>
-                        <td>{foodPos1}, {foodDir1}</td>
-                        <td>{foodPos2}, {foodDir2}</td>
-                        <td>{foodPos3}, {foodDir3}</td>
-    </tr>*/}
+                   
                     {Array.from(Array(height).keys()).map(y => (
                         <tr key={y} className="Air">
-                            {/* {food.map((elem, x) => (
-                                <td key={x} className={foodDirections[x] === "down" ? "rotate" : ""}>
-                                    {foodPositions[x] ===  height - 1 - y ? elem: ''}
-                                </td>
-                            ))} */}
+                            
                             <td className={foodDir0 === "down" ? "rotate" : ""}>
                                 {foodPos0 === height - 1 - y ? food[0] : ""}
                             </td>
@@ -348,6 +340,9 @@ function Chef(/*props: ChefProps*/) {
             <div className="VersionDisplay">
                 <span>v0.2.0</span>
             </div>
+
+            {gameEnded ? <SubmitScore/> : null}
+
         </div>
     )
 }
